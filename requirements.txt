@@ -1,8 +1,6 @@
 streamlit
 youtube-transcript-api==1.2.3
-nltk
-scikit-learn
 transformers
+torch
 textblob
-numpy
-tensorflow-cpu==2.20.0
+nltk
