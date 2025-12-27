@@ -83,12 +83,16 @@ def main():
                 return
 
             # Get transcript of the video
-            transcript = YouTubeTranscriptApi.get_transcript(video_id)
-            if not transcript:
-                st.error("Transcript not available for this video.")
+
+            # Get transcript of the video (compatible with all versions)
+            try:
+                transcript_list = YouTubeTranscriptApi.list_transcripts(video_id)
+                transcript = transcript_list.find_transcript(['en']).fetch()
+                video_text = ' '.join([line['text'] for line in transcript])
+            except Exception as e:
+                st.error(f"Transcript not available: {str(e)}")
                 return
 
-            video_text = ' '.join([line['text'] for line in transcript])
 
             # Summarize the transcript
             summary = summarize_text(video_text, max_length=max_summary_length)
@@ -126,3 +130,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
