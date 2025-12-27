@@ -5,5 +5,4 @@ scikit-learn
 transformers
 textblob
 numpy
-tensorflow
-tf-keras
+tensorflow-cpu==2.13.0
