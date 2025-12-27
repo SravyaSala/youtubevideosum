@@ -10,13 +10,13 @@ from textblob import TextBlob
 import re
 import nltk
 
-# Download necessary NLTK data
+# Download NLTK data
 nltk.download('punkt')
 nltk.download('stopwords')
 nltk.download('wordnet')
 
 # Summarization function
-def summarize_text(text, max_length=50000):
+def summarize_text(text, max_length=5000):
     summarization_pipeline = pipeline("summarization")
     summary = summarization_pipeline(text, max_length=max_length, min_length=50, do_sample=False)
     return summary[0]['summary_text']
@@ -62,7 +62,7 @@ def extract_video_id(url):
             return match.group(1)
     return None
 
-# Main app
+# Main Streamlit app
 def main():
     st.title("YouTube Video Summarizer")
 
@@ -76,9 +76,10 @@ def main():
             return
 
         try:
-            # Get transcript (works with youtube-transcript-api==1.2.3)
-            transcript = YouTubeTranscriptApi.get_transcript(video_id)
-            video_text = ' '.join([line['text'] for line in transcript])
+            # Get transcript using list_transcripts().fetch() (works with older versions)
+            transcripts = YouTubeTranscriptApi.list_transcripts(video_id)
+            transcript = transcripts.find_transcript(['en'])  # get English transcript
+            video_text = ' '.join([line['text'] for line in transcript.fetch()])
 
             # Summarize
             summary = summarize_text(video_text, max_length=max_summary_length)
