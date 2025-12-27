@@ -1,6 +1,5 @@
 streamlit
-youtube-transcript-api==1.2.3
+yt-dlp
 transformers
 torch
 textblob
-nltk
