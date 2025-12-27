@@ -85,6 +85,7 @@ def main():
             # Get transcript of the video
 
             # Get transcript of the video (compatible with all versions)
+            # Get transcript of the video (works with youtube-transcript-api==1.2.7)
             try:
                 transcript_list = YouTubeTranscriptApi.list_transcripts(video_id)
                 transcript = transcript_list.find_transcript(['en']).fetch()
@@ -92,6 +93,7 @@ def main():
             except Exception as e:
                 st.error(f"Transcript not available: {str(e)}")
                 return
+
 
 
             # Summarize the transcript
@@ -130,4 +132,5 @@ def main():
 
 if __name__ == "__main__":
     main()
+
 
